@@ -3,6 +3,7 @@ import download
 import set_config
 import convert
 from popup_window import PopupWindow
+from options_popup import create_popup
 
 class MenuItem(object):
     def __init__(self, items):
@@ -58,7 +59,7 @@ class MenuItem(object):
                 if self.position == len(self.items) - 1:
                     return 0
                 else:
-                    self.items[self.position][1]()
+                    self.items[self.position][1](self.items[self.position][0], self.size_y, self.size_x)
 
             elif key == curses.KEY_UP:
                 self.navigate(-1)
@@ -76,15 +77,18 @@ class App(object):
         self.screen.addstr(0, 0, "Curtube by DIRrinn ", curses.A_DIM)
         self.screen.refresh()
 
+        pos_y = curses.LINES
+        pos_x = curses.COLS
+
         # COLORS
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.curs_set(0)
 
         menu_items = [
-            ("Config", set_config.configuration),
-            ("Set Url", set_config.set_url),
-            ("Download", download.download)
+            ("Config", create_popup),
+            ("Set Url", create_popup),
+            ("Download", create_popup)
         ]
         self.menu = MenuItem(menu_items)
         self.menu.display()
@@ -92,3 +96,4 @@ class App(object):
 
 if __name__ == "__main__":
     curses.wrapper(App)
+

@@ -4,18 +4,20 @@ from pytubefix.cli import on_progress
 import json
 import convert
 
-def download():
+def get_configs():
     with open("config.json", "r") as config:
-        variables = json.load(config)
+            variables = json.load(config)
 
     url = variables["url"]
     res = variables["resolution"]
     symbols_remove = variables["incorrect_symbols_remove"]
+    convert = variables["convert_to_mp3"]
     output = variables["output_path"]
 
-    if input("Start downloading? (y/n)\n") == "n":
-        print("Stopped")
-        return 0
+    return url, res, symbols_remove, convert, output
+
+
+def download(url, res, symbols_remove, convert, output):
 
     yt = YouTube(url, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
 
@@ -37,8 +39,6 @@ def download():
     else:
         file = yt.title
 
-    print(f"The title is: {file}\n")
-
     if res == ".m4a":
         ys = yt.streams.get_audio_only()
     elif res == ".mp4":
@@ -48,6 +48,10 @@ def download():
         #dosomething
 
     ys.download(output_path=output, filename=file + res)
-    print('Download finished successfully.')
     convert.convert_to_mp3(file, res, output)
+
+def get_title():
+    url = get_configs()
+    yt = YouTube(url[0])
+    return yt.title
 

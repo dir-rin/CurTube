@@ -12,6 +12,7 @@ def configuration():
 url: {variables["url"]}
 resolution: {variables["resolution"]}
 incorrect symbols remove: {variables["incorrect_symbols_remove"]}
+convert to mp3: {variables["convert_to_mp3"]}
 output_path: {variables["output_path"]}
                 ''')
         input("Press enter to exit")
@@ -43,6 +44,7 @@ output_path: {variables["output_path"]}
             url: {variables["url"]}
             resolution: {variables["resolution"]}
             incorrect symbols remove: {variables["incorrect_symbols_remove"]}
+            convert_to_mp3: {variables["convert_to_mp3"]}
             output_path: {variables["output_path"]}\n
             ''')
     with open("config.json", "w") as config:
