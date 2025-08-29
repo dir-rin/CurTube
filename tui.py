@@ -6,7 +6,8 @@ from popup_window import PopupWindow
 from options_popup import create_popup
 
 class MenuItem(object):
-    def __init__(self, items):
+    def __init__(self, items, screen):
+        self.screen = screen
         self.size_x = curses.COLS // 2
         self.size_y = curses.LINES // 2
 
@@ -25,8 +26,6 @@ class MenuItem(object):
 
    Move with arrows. Enter to choose option.
 ''')
-        self.window.box(0, 0)
-
         self.position = 0
         self.items = items
         self.items.append(("Exit", "Exit"))
@@ -43,6 +42,8 @@ class MenuItem(object):
         while True:
             self.window.refresh()
             curses.doupdate()
+            self.window.box(0, 0)
+
 
             for index, item in enumerate(self.items):
                 if index == self.position:
@@ -59,7 +60,7 @@ class MenuItem(object):
                 if self.position == len(self.items) - 1:
                     return 0
                 else:
-                    self.items[self.position][1](self.items[self.position][0], self.size_y, self.size_x)
+                    self.items[self.position][1](self.items[self.position][0], self.size_y, self.size_x, self.screen)
 
             elif key == curses.KEY_UP:
                 self.navigate(-1)
@@ -90,7 +91,7 @@ class App(object):
             ("Set Url", create_popup),
             ("Download", create_popup)
         ]
-        self.menu = MenuItem(menu_items)
+        self.menu = MenuItem(menu_items, self.screen)
         self.menu.display()
 
 
