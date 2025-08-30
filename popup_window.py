@@ -22,17 +22,17 @@ class PopupWindow(object):
         self.position += n
         if self.position < 0:
             self.position = 0
-        elif self.position >= len(self.options):
+
+        elif self.position >= len(self.options) and self.options != ():
             self.position = len(self.options) - 1
+        elif self.position >= len(self.buttons) and self.buttons != ():
+            self.position = len(self.buttons) - 1
 
     def display(self):
         if self.buttons != ():
             while True:
                 pos = 2
                 for index, item in enumerate(self.buttons):
-                    self.window.refresh()
-                    curses.doupdate()
-
                     if index == self.position:
                         mode = curses.A_REVERSE
                     else:
@@ -41,18 +41,18 @@ class PopupWindow(object):
                     self.window.addstr(8, pos, item, mode)
                     pos += 10
 
-                    key = self.window.getch()
+                key = self.window.getch()
 
-                    if key in [curses.KEY_ENTER, ord("\n")]:
-                        if self.position == len(self.buttons) - 1:
-                            return 0
-                        else:
-                            self.buttons[self.position][1]()
+                if key in [curses.KEY_ENTER, ord("\n")]:
+                    if self.position == len(self.buttons) - 1:
+                        return 0
+                    else:
+                        self.buttons[self.position][1]()
 
-                    elif key == curses.KEY_LEFT:
-                        self.navigation(-1)
-                    elif key == curses.KEY_RIGHT:
-                        self.navigation(1)
+                elif key == curses.KEY_LEFT:
+                    self.navigation(-1)
+                elif key == curses.KEY_RIGHT:
+                    self.navigation(1)
 
             self.window.clear()
             curses.doupdate()
@@ -60,9 +60,6 @@ class PopupWindow(object):
 
         elif self.options != ():
             while True:
-                self.window.refresh()
-                curses.doupdate()
-
                 pos = 4
                 for index, item in enumerate(self.options):
                     if index == self.position:

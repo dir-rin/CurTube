@@ -2,12 +2,17 @@ from popup_window import PopupWindow
 from curses.textpad import Textbox
 import download
 import curses
+import set_config
 
 class Config(object):
     def __init__(self, pos_y, pos_x):
         self.window = PopupWindow((pos_y, pos_x), "Config")
-        self.window.add_options([("Show current", curses.beep), ("Edit config", curses.beep)])
+        self.window.add_options([("Show current", self.set_str), ("Edit config", curses.flash)])
         self.window.display()
+
+    def set_str(self):
+        configs = set_config.get_config()
+        self.window.addstr((0, 0), configs)
 
 class SetUrl(object):
     def __init__(self, pos_y, pos_x):

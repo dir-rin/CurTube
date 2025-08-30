@@ -1,23 +1,18 @@
 import json
 
-def configuration():
-    if input('''
-                1. Show current
-                2. Edit
-''') == "1":
-        with open("config.json", "r") as config:
-            variables = json.load(config)
-        print(f'''
-            Current config:
-url: {variables["url"]}
-resolution: {variables["resolution"]}
-incorrect symbols remove: {variables["incorrect_symbols_remove"]}
-convert to mp3: {variables["convert_to_mp3"]}
-output_path: {variables["output_path"]}
-                ''')
-        input("Press enter to exit")
-        return 0
+def get_config():
+    with open("config.json", "r") as config:
+        variables = json.load(config)
 
+    url = variables["url"]
+    res = variables["resolution"]
+    incorrect_sym = variables["incorrect_symbols_remove"]
+    convert_to_mp3 = variables["convert_to_mp3"]
+    output_path = variables["output_path"]
+
+    return f"{url}, {res}, {incorrect_sym}, {convert_to_mp3}, {output_path}"
+
+def set_config():
     with open("config.json", "r") as config:
         variables = json.load(config)
 
