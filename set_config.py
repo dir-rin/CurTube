@@ -10,7 +10,14 @@ def get_config():
     convert_to_mp3 = variables["convert_to_mp3"]
     output_path = variables["output_path"]
 
-    return f"{url}, {res}, {incorrect_sym}, {convert_to_mp3}, {output_path}"
+    str = f'''Url: {url}
+ Resolution: {res}
+ Filter title symbols: {incorrect_sym}
+ Convert to mp3: {convert_to_mp3}
+ Output path: {output_path}
+        '''
+    return str
+
 
 def set_config():
     with open("config.json", "r") as config:

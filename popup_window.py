@@ -2,7 +2,9 @@ import curses
 
 class PopupWindow(object):
     def __init__(self, pos, label):
-        self.window = curses.newwin(10, 20, pos[0], pos[1])
+        self.size_y = 10
+        self.size_x = 40
+        self.window = curses.newwin(self.size_y, self.size_x, pos[0], pos[1] - self.size_x // 2)
         self.window.box(0, 0)
         self.window.keypad(1)
         self.window.addstr(0, 1, label)
@@ -29,7 +31,8 @@ class PopupWindow(object):
             self.position = len(self.buttons) - 1
 
     def display(self):
-        if self.buttons != ():
+        if len(self.buttons) > 1:
+            self.window.box(0, 0)
             while True:
                 pos = 2
                 for index, item in enumerate(self.buttons):
@@ -57,6 +60,15 @@ class PopupWindow(object):
             self.window.clear()
             curses.doupdate()
 
+        elif len(self.buttons) == 1:
+            self.window.box(0, 0)
+            mode = curses.A_REVERSE
+            self.window.addstr(8, 15, self.buttons[0], mode)
+
+            key = self.window.getch()
+
+            if key in [curses.KEY_ENTER, ord("\n")]:
+                return 0
 
         elif self.options != ():
             while True:
