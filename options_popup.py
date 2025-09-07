@@ -1,5 +1,6 @@
 from popup_window import PopupWindow
 from curses.textpad import Textbox
+from curses.textpad import rectangle
 import download
 import curses
 import set_config
@@ -30,10 +31,9 @@ class Config(object):
 class SetUrl(object):
     def __init__(self, pos_y, pos_x):
         self.window = PopupWindow((pos_y, pos_x), "Set Url")
-        self.window.add_buttons(("Enter", "Cancel"))
+        self.window.add_buttons([("Enter", set_config.set_url), ("Cancel", "Cancel")])
 
-        self.window.display()
-        #self.textbox = Textbox(self.window)
+        self.window.display_textbox()
 
 class DownloadW(object):
     def __init__(self, pos_y, pos_x):

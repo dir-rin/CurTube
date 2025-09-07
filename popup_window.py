@@ -43,7 +43,7 @@ class PopupWindow(object):
                     else:
                         mode = curses.A_NORMAL
 
-                    self.window.addstr(8, pos, item, mode)
+                    self.window.addstr(8, pos, item[0], mode)
                     pos += 10
 
                 key = self.window.getch()
@@ -100,6 +100,44 @@ class PopupWindow(object):
 
             self.window.clear()
             curses.doupdate()
+
+    def display_textbox(self):
+        self.str = []
+
+        while True:
+            self.window.box(0, 0)
+            self.addlabel()
+            self.window.addstr(4, 2, "Enter Url: ")
+            self.window.addstr(4, 13, "".join(self.str))
+            pos = 2
+            for index, item in enumerate(self.buttons):
+                if index == self.position:
+                    mode = curses.A_REVERSE
+                else:
+                    mode = curses.A_NORMAL
+
+                self.window.addstr(8, pos, item[0], mode)
+                pos += 10
+
+            key = self.window.getkey()#getch()
+
+            if key == "\n":  #in [curses.KEY_ENTER, ord("\n")]:
+                if self.position == len(self.buttons) - 1:
+                    return 0
+                else:
+                    self.buttons[self.position][1]("".join(self.str))
+                    return 0
+
+            elif key == "KEY_LEFT":
+                self.navigation(-1)
+            elif key == "KEY_RIGHT":
+                self.navigation(1)
+            elif key == "KEY_BACKSPACE":
+                if self.str != []:
+                    self.str.pop()
+                    self.window.clear()
+            else:
+                self.str.append(key)
 
     def addstr(self, pos, string):
         self.window.addstr(pos[0], pos[1], string)

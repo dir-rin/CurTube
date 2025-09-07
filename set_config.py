@@ -52,12 +52,11 @@ def set_config():
     with open("config.json", "w") as config:
         json.dump(variables, config)
 
-def set_url():
+def set_url(url):
     with open("config.json", "r") as config:
         variables = json.load(config)
 
-    variables["url"] = input("Enter URL\n")
-    print(f"Current url: {variables["url"]}\n")
+    variables["url"] = url
 
     with open("config.json", "w") as config:
         json.dump(variables, config)
