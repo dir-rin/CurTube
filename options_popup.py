@@ -1,6 +1,4 @@
 from popup_window import PopupWindow
-from curses.textpad import Textbox
-from curses.textpad import rectangle
 import download
 import curses
 import set_config
@@ -12,7 +10,7 @@ class Config(object):
         self.screen = screen
 
         self.window = PopupWindow((pos_y, pos_x), "Config")
-        self.window.add_options([("Show current", self.info_box), ("Edit config", curses.flash)])
+        self.window.add_options([("Show current", self.info_box), ("Edit config", self.edit_res)])
         self.window.display()
 
     def info_box(self):
@@ -27,13 +25,22 @@ class Config(object):
         del info_box
         self.window.touchwin()
         self.window.refresh()
+    
+    def edit_res(self):
+        edit = PopupWindow((self.pos_y, self.pos_x), "Set resolution")
+        edit.add_options([(".m4a", set_config.set_res, ".m4a"), (".mp3", set_config.set_res, ".mp3")])
+        edit.display()
+
+        del edit
+        self.window.touchwin()
+        self.window.refresh()
 
 class SetUrl(object):
     def __init__(self, pos_y, pos_x):
         self.window = PopupWindow((pos_y, pos_x), "Set Url")
         self.window.add_buttons([("Enter", set_config.set_url), ("Cancel", "Cancel")])
 
-        self.window.display_textbox()
+        self.window.display_textbox("url")
 
 class DownloadW(object):
     def __init__(self, pos_y, pos_x):

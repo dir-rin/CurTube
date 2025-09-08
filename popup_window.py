@@ -90,6 +90,8 @@ class PopupWindow(object):
                 if key in [curses.KEY_ENTER, ord("\n")]:
                     if self.position == len(self.options) - 1:
                         return 0
+                    elif len(self.options[self.position]) == 3:
+                        self.options[self.position][1](self.options[self.position][2])
                     else:
                         self.options[self.position][1]()
 
@@ -101,13 +103,13 @@ class PopupWindow(object):
             self.window.clear()
             curses.doupdate()
 
-    def display_textbox(self):
+    def display_textbox(self, label):
         self.str = []
 
         while True:
             self.window.box(0, 0)
             self.addlabel()
-            self.window.addstr(4, 2, "Enter Url: ")
+            self.window.addstr(4, 2, f"Enter {label}: ")
             self.window.addstr(4, 13, "".join(self.str))
             pos = 2
             for index, item in enumerate(self.buttons):
