@@ -49,10 +49,14 @@ class PopupWindow(object):
                 key = self.window.getch()
 
                 if key in [curses.KEY_ENTER, ord("\n")]:
-                    if self.position == len(self.buttons) - 1:
+                    if self.position == len(self.buttons) - 1 and not len(self.buttons[self.position]) == 3:
+                        return 0
+                    elif len(self.buttons[self.position]) == 3:
+                        self.buttons[self.position][1](self.buttons[self.position][2])
                         return 0
                     else:
                         self.buttons[self.position][1]()
+                        return 0
 
                 elif key == curses.KEY_LEFT:
                     self.navigation(-1)
@@ -76,7 +80,7 @@ class PopupWindow(object):
 
         elif self.options != ():
             while True:
-                pos = 4
+                pos = 3
                 for index, item in enumerate(self.options):
                     if index == self.position:
                         mode = curses.A_REVERSE
@@ -110,7 +114,7 @@ class PopupWindow(object):
             self.window.box(0, 0)
             self.addlabel()
             self.window.addstr(4, 2, f"Enter {label}: ")
-            self.window.addstr(4, 13, "".join(self.str))
+            self.window.addstr(4, len(label) + 10, "".join(self.str))
             pos = 2
             for index, item in enumerate(self.buttons):
                 if index == self.position:
