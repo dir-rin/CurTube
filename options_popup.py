@@ -2,6 +2,7 @@ from popup_window import PopupWindow
 import download
 import curses
 import set_config
+import pytubefix
 
 class Config(object):
     def __init__(self, pos_y, pos_x, screen):
@@ -94,9 +95,31 @@ class SetUrl(object):
 
 class DownloadW(object):
     def __init__(self, pos_y, pos_x):
-        self.window = PopupWindow((pos_y, pos_x), "Download")
-        self.window.add_options([("Download", curses.flash), ("Convert to mp3", curses.flash)])
+        self.pos_y = pos_y
+        self.pos_x = pos_x
+
+        self.window = PopupWindow((pos_y, pos_x), "Download options")
+        self.window.add_options([("Download", self.download_win), ("Convert to mp3", curses.flash)])
         self.window.display()
+
+    def download_win(self):
+        win = PopupWindow((self.pos_y, self.pos_x), "Download")
+        opt = download.get_configs()
+        win.add_buttons(["Continue"])
+
+        try: 
+            win.addstr((2, 2), download.get_title())
+        except pytubefix.exceptions.RegexMatchError:
+            win.addstr((2, 2), "No valid url.")
+        else:
+            win.addstr((4, 2), "Downloading video...")
+            download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+
+        win.display()
+
+        del win
+        self.window.touchwin()
+        self.window.refresh()
 
 def create_popup(window, pos_y, pos_x, screen):
     if window == "Config":

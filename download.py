@@ -18,7 +18,7 @@ def get_configs():
 
 def download(url, res, symbols_remove, convert, output):
 
-    yt = YouTube(url, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
+    yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
 
     #incorrect symbols might break the save process, so they need to be deleted from file's name
     if symbols_remove == True:
