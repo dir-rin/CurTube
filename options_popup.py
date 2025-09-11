@@ -3,6 +3,7 @@ import download
 import curses
 import set_config
 import pytubefix
+import urllib
 
 class Config(object):
     def __init__(self, pos_y, pos_x, screen):
@@ -105,17 +106,23 @@ class DownloadW(object):
     def download_win(self):
         win = PopupWindow((self.pos_y, self.pos_x), "Download")
         opt = download.get_configs()
-        win.add_buttons(["Continue"])
+        win.addstr((2, 2), "Trying...")
+        win.refresh()
 
-        try: 
+        try:
             win.addstr((2, 2), download.get_title())
         except pytubefix.exceptions.RegexMatchError:
             win.addstr((2, 2), "No valid url.")
+        except urllib.error.URLError:
+            win.addstr((2, 2), "You seem to be offline.         ")
         else:
             win.addstr((4, 2), "Downloading video...")
+            win.refresh()
             download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+            win.addstr((4, 2), "Download has been finished!")
 
-        win.display()
+        win.addstr((6, 2), "- Press any button to exit")
+        win.window.getch()
 
         del win
         self.window.touchwin()
