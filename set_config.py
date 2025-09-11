@@ -4,7 +4,10 @@ def get_config():
     with open("config.json", "r") as config:
         variables = json.load(config)
 
-    url = variables["url"]
+    if len(variables["url"]) > 50:
+        url = variables["url"][0: 50] + "..."
+    else:
+        url = variables["url"]
     res = variables["resolution"]
     incorrect_sym = variables["incorrect_symbols_remove"]
     convert_to_mp3 = variables["convert_to_mp3"]
