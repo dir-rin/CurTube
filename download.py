@@ -47,7 +47,7 @@ def download(url, res, symbols_remove, convert, output):
         #dosomething
 
     ys.download(output_path=output, filename=file + res)
-    convert.convert_to_mp3(file, res, output)
+    #convert.convert_to_mp3(file, res, output)
 
 def get_title():
     url = get_configs()

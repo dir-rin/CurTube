@@ -107,10 +107,11 @@ class DownloadW(object):
         win = PopupWindow((self.pos_y, self.pos_x), "Download")
         opt = download.get_configs()
         win.addstr((2, 2), "Trying...")
+        win.addstr((6, 2), "Ctrl+Z to stop")
         win.refresh()
 
         try:
-            win.addstr((2, 2), download.get_title())
+            win.addstr((2, 2), download.get_title()[0:50] + "...")
         except pytubefix.exceptions.RegexMatchError:
             win.addstr((2, 2), "No valid url.")
         except urllib.error.URLError:
@@ -118,7 +119,7 @@ class DownloadW(object):
         else:
             win.addstr((4, 2), "Downloading video...")
             win.refresh()
-            download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+            #download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
             win.addstr((4, 2), "Download has been finished!")
 
         win.addstr((6, 2), "- Press any button to exit")
