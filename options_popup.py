@@ -119,7 +119,7 @@ class DownloadW(object):
         else:
             win.addstr((4, 2), "Downloading video...")
             win.refresh()
-            #download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+            download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
             win.addstr((4, 2), "Download has been finished!")
 
         win.addstr((6, 2), "- Press any button to exit")
