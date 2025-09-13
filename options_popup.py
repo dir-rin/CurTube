@@ -4,6 +4,7 @@ import curses
 import set_config
 import pytubefix
 import urllib
+import convert
 
 class Config(object):
     def __init__(self, pos_y, pos_x, screen):
@@ -100,7 +101,7 @@ class DownloadW(object):
         self.pos_x = pos_x
 
         self.window = PopupWindow((pos_y, pos_x), "Download options")
-        self.window.add_options([("Download", self.download_win), ("Convert to mp3", curses.flash)])
+        self.window.add_options([("Download", self.download_win), ("Convert to mp3", self.convert)])
         self.window.display()
 
     def download_win(self):
@@ -119,7 +120,12 @@ class DownloadW(object):
         else:
             win.addstr((4, 2), "Downloading video...")
             win.refresh()
-            download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+            file = download.download(opt[0], opt[1], opt[2], opt[3], opt[4])
+            if opt[3] == True:
+                win.addstr((4, 2), "Converting video...")
+                win.window.refresh()
+                convert.convert_to_mp3(file, opt[1], opt[4])
+
             win.addstr((4, 2), "Download has been finished!")
 
         win.addstr((6, 2), "- Press any button to exit")
@@ -128,6 +134,19 @@ class DownloadW(object):
         del win
         self.window.touchwin()
         self.window.refresh()
+
+    def convert(self):
+        win = PopupWindow((self.pos_y, self.pos_x), "Convert to mp3")
+        win.add_buttons([("True", set_config.set_conv, True), ("False", set_config.set_conv, False)])
+        win.addstr((2, 4), '''Convert to mp3?
+    The default resolution of audio file is .m4a,
+    so you might want to convert it to .mp3''')
+        win.display()
+
+        del win
+        self.window.touchwin()
+        self.window.refresh()
+
 
 def create_popup(window, pos_y, pos_x, screen):
     if window == "Config":

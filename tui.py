@@ -15,7 +15,7 @@ class MenuItem(object):
         self.window.keypad(1)
         self.window.bkgd(' ', curses.color_pair(1))
 
-        self.window.addstr(1, 0, r'''
+        self.window.addstr(1, 0, r'''\
     ____ _   _ ____ _____ _   _ ____  _____
    / ___| | | |  _ \_   _| | | | __ )| ____|
   | |   | | | | |_) || | | | | |  _ \|  _|
