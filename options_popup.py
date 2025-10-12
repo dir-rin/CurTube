@@ -55,9 +55,6 @@ class Config(object):
         win = PopupWindow((self.pos_y, self.pos_x), "Remove incorrect symbols")
         win.add_buttons([("True", set_config.set_sym, True), ("False", set_config.set_sym, False)])
         win.addstr((2, 4), '''Remove incorrect symbols?
-                        WARNING
-    This is useful when your file system
-    does not support some system owned symbols
     Example: /#$;:,.'[] etc.''')
         win.display()
 
