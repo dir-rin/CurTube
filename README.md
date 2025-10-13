@@ -13,5 +13,5 @@
 I won't fix any issues lol
 
 ## TODO:
-- Remove relative path. Do absolute.
-- Fix Oauth bug
+- Remove relative path. Do absolute. (-)
+- Fix Oauth bug (CRITICAL)
