@@ -2,9 +2,11 @@
 from pytubefix import YouTube
 import json
 import convert
+import os
 
 def get_configs():
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
             variables = json.load(config)
 
     url = variables["url"]
@@ -18,7 +20,7 @@ def get_configs():
 
 def download(url, res, symbols_remove, convert, output):
 
-    yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
+    yt = YouTube(url, use_oauth=False, allow_oauth_cache=True)
 
     #incorrect symbols might break the save process, so they need to be deleted from file's name
     if symbols_remove == True:

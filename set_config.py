@@ -1,7 +1,9 @@
 import json
+import os
 
 def get_config():
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     if len(variables["url"]) > 50:
@@ -22,48 +24,53 @@ def get_config():
     return str
 
 def set_url(url):
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     variables["url"] = url
 
-    with open("config.json", "w") as config:
+    with open(config_path, "w") as config:
         json.dump(variables, config)
 
 def set_res(res):
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     variables["resolution"] = res
 
-    with open("config.json", "w") as config:
+    with open(config_path, "w") as config:
         json.dump(variables, config)
 
 def set_sym(choice):
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     variables["incorrect_symbols_remove"] = choice
 
-    with open("config.json", "w") as config:
+    with open(config_path, "w") as config:
         json.dump(variables, config)
 
 def set_conv(choice):
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     variables["convert_to_mp3"] = choice
 
-    with open("config.json", "w") as config:
+    with open(config_path, "w") as config:
         json.dump(variables, config)
 
 def set_path(path):
-    with open("config.json", "r") as config:
+    config_path = os.getcwd() + "/config.json"
+    with open(config_path, "r") as config:
         variables = json.load(config)
 
     variables["output_path"] = path
 
-    with open("config.json", "w") as config:
+    with open(config_path, "w") as config:
         json.dump(variables, config)
 
 
